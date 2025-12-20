@@ -56,6 +56,7 @@ $template = $blog['template'] ?? 'standard';
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
 </head>
 <body>
+<?php include __DIR__ . '/../includes/language-toggle.php'; ?>
 <?php if ($template === 'feature'): ?>
     <div class="feature-layout">
         <header class="feature-hero" style="background-image: url('<?php echo BASE_URL . e($bannerImage); ?>');">
@@ -126,5 +127,6 @@ $template = $blog['template'] ?? 'standard';
         <div class="content"><?php echo $blog['content']; ?></div>
     </div>
 <?php endif; ?>
+<?php include __DIR__ . '/../includes/site-footer.php'; ?>
 </body>
 </html>

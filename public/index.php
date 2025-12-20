@@ -39,6 +39,7 @@ $heroImage = $highlight && $highlight['featured_image'] ? $highlight['featured_i
         <?php endif; ?>
     </div>
 </header>
+<?php include __DIR__ . '/../includes/language-toggle.php'; ?>
 <div class="container">
     <?php if (empty($blogs)): ?>
         <p>No posts yet.</p>
@@ -66,5 +67,6 @@ $heroImage = $highlight && $highlight['featured_image'] ? $highlight['featured_i
     <?php endif; ?>
     <?php echo pagination($total, $perPage, $page, BASE_URL . 'public/index.php'); ?>
 </div>
+<?php include __DIR__ . '/../includes/site-footer.php'; ?>
 </body>
 </html>
