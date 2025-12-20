@@ -7,7 +7,7 @@
             </div>
             <h2 class="footer-cta__title">Contact Pivot Marketing</h2>
             <a class="footer-cta__button" href="mailto:hello@pivotmkg.com" aria-label="Start a conversation">
-                <span>&rarr;</span>
+                <span>Start a conversation</span>
             </a>
         </div>
     </section>

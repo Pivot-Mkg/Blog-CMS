@@ -40,13 +40,15 @@ require_once __DIR__ . '/../../includes/header.php';
         <div class="auth-hero">
             <div class="auth-hero__content">
                 <p class="eyebrow">Welcome back</p>
-                <h1>Convert your ideas into successful business.</h1>
+                <h1>Convert your ideas into successful stories.</h1>
             </div>
         </div>
         <div class="auth-form">
-            <div class="auth-logo">✺</div>
-            <h2>Get Started</h2>
-            <p class="auth-subtitle">Welcome back — let’s get you signed in</p>
+            <div class="auth-logo">
+                <img src="https://pivotmkg.com/assets/images/Final_logo.png" alt="Pivot Marketing Logo">
+            </div>
+            <!-- <h2>Get Started</h2> -->
+            <!-- <p class="auth-subtitle">Welcome back — let’s get you signed in</p> -->
             <?php if (!empty($errors)): ?>
                 <div class="card flash flash-error" style="margin-bottom:12px;"><?php echo e(implode(' ', $errors)); ?></div>
             <?php endif; ?>
