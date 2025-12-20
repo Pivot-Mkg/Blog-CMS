@@ -100,40 +100,73 @@ if (is_post()) {
 $pageTitle = 'Create Blog';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
-<div style="display:flex;justify-content:space-between;align-items:center;">
-    <h1 style="margin:0;">Create Blog</h1>
-    <a class="btn btn-secondary" href="<?php echo BASE_URL; ?>admin/blogs/index.php">Back</a>
+<div class="page-header">
+    <div>
+        <div class="breadcrumb"><a href="<?php echo BASE_URL; ?>admin/blogs/index.php">Blogs</a> <span>/</span> Create Blog</div>
+        <h1 class="page-title">Create Blog</h1>
+        <p class="page-subtitle">Draft a new blog post, media, layout, and SEO just like the edit experience.</p>
+    </div>
+    <div class="page-actions">
+        <a class="btn btn-secondary btn-ghost" href="<?php echo BASE_URL; ?>admin/blogs/index.php">Back</a>
+        <button class="btn btn-primary" type="submit" form="create-form">Create</button>
+    </div>
 </div>
 
-<div class="card">
+<form id="create-form" class="edit-form" method="post" enctype="multipart/form-data">
+    <?php echo csrf_field(); ?>
+
     <?php if (!empty($errors)): ?>
-        <div class="card" style="border-left:4px solid #dc2626; background:#fef2f2;">
+        <div class="card form-alert form-alert--error">
             <?php echo e(implode(' ', $errors)); ?>
         </div>
     <?php endif; ?>
-    <form method="post" enctype="multipart/form-data">
-        <?php echo csrf_field(); ?>
-        <div class="form-group">
-            <label class="form-label">Title</label>
-            <input type="text" name="title" class="form-control" required value="<?php echo e($data['title']); ?>">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Slug</label>
-            <input type="text" name="slug" class="form-control" placeholder="auto-generated if empty" value="<?php echo e($data['slug']); ?>">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Excerpt</label>
-            <textarea name="excerpt" class="form-control" rows="3"><?php echo e($data['excerpt']); ?></textarea>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Content</label>
-            <div id="content-editor" style="height:400px;"></div>
-            <textarea id="content" name="content" class="form-control" style="display:none;"><?php echo e($data['content']); ?></textarea>
-        </div>
-        <div class="form-group" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+
+    <section class="card section-card">
+        <div class="section-card__header">
             <div>
-                <label class="form-label">Banner Image</label>
-                <label class="file-upload">
+                <h2>Content</h2>
+                <p class="section-hint">Core content fields shown on the blog page.</p>
+            </div>
+        </div>
+        <div class="section-card__body">
+            <div class="form-group">
+                <label class="form-label">Title</label>
+                <input type="text" name="title" class="form-control form-control--lg" required value="<?php echo e($data['title']); ?>">
+            </div>
+            <div class="form-grid form-grid--split">
+                <div class="form-group">
+                    <label class="form-label">Slug</label>
+                    <input type="text" name="slug" class="form-control" placeholder="auto-generated if empty" value="<?php echo e($data['slug']); ?>">
+                    <small class="form-hint">Used in URL, editable.</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Excerpt</label>
+                    <textarea name="excerpt" class="form-control" rows="3"><?php echo e($data['excerpt']); ?></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Content</label>
+                <div id="content-editor" class="editor-shell"></div>
+                <textarea id="content" name="content" class="form-control" style="display:none;"><?php echo e($data['content']); ?></textarea>
+            </div>
+        </div>
+    </section>
+
+    <section class="card section-card">
+        <div class="section-card__header">
+            <div>
+                <h2>Media</h2>
+                <p class="section-hint">Add or replace the banner and inside images.</p>
+            </div>
+        </div>
+        <div class="section-card__body media-grid">
+            <div class="media-block">
+                <div class="media-block__header">
+                    <h3>Banner Image</h3>
+                    <p class="form-hint">Hero banner shown at the top.</p>
+                </div>
+                <div class="image-preview"><img id="banner-preview" alt="Banner preview"></div>
+                <label class="file-upload file-upload--buttonish">
                     <i class="fa-solid fa-image"></i>
                     <span class="file-text">
                         <span class="file-title">Upload banner</span>
@@ -142,11 +175,14 @@ require_once __DIR__ . '/../../includes/header.php';
                     <input type="file" name="banner_image" accept="image/*">
                 </label>
                 <small class="form-text">If left blank a default banner will be used.</small>
-                <div class="image-preview"><img id="banner-preview" alt="Banner preview"></div>
             </div>
-            <div>
-                <label class="form-label">Inside Image</label>
-                <label class="file-upload">
+            <div class="media-block">
+                <div class="media-block__header">
+                    <h3>Inside Image</h3>
+                    <p class="form-hint">Used inside the article body.</p>
+                </div>
+                <div class="image-preview"><img id="inside-preview" alt="Inside image preview"></div>
+                <label class="file-upload file-upload--buttonish">
                     <i class="fa-solid fa-photo-film"></i>
                     <span class="file-text">
                         <span class="file-title">Upload inside image</span>
@@ -154,67 +190,120 @@ require_once __DIR__ . '/../../includes/header.php';
                     </span>
                     <input type="file" name="featured_image" accept="image/*">
                 </label>
-                <div class="image-preview"><img id="inside-preview" alt="Inside image preview"></div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-label">Status</label>
-            <select name="status" class="form-control" required>
-                <option value="draft" <?php echo $data['status'] === 'draft' ? 'selected' : ''; ?>>Draft</option>
-                <option value="published" <?php echo $data['status'] === 'published' ? 'selected' : ''; ?>>Publish now</option>
-                <option value="scheduled" <?php echo $data['status'] === 'scheduled' ? 'selected' : ''; ?>>Schedule</option>
-            </select>
+    </section>
+
+    <section class="card section-card">
+        <div class="section-card__header">
+            <div>
+                <h2>Publishing &amp; Author</h2>
+                <p class="section-hint">Control visibility, schedule, and author details.</p>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="form-label">Publish Date (for scheduled)</label>
-            <input type="datetime-local" name="publish_date" class="form-control" value="<?php echo e($data['publish_date']); ?>">
+        <div class="section-card__body form-grid form-grid--split">
+            <div class="form-group">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-control" required>
+                    <option value="draft" <?php echo $data['status'] === 'draft' ? 'selected' : ''; ?>>Draft</option>
+                    <option value="published" <?php echo $data['status'] === 'published' ? 'selected' : ''; ?>>Publish now</option>
+                    <option value="scheduled" <?php echo $data['status'] === 'scheduled' ? 'selected' : ''; ?>>Schedule</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Publish date &amp; time</label>
+                <input type="datetime-local" name="publish_date" class="form-control" value="<?php echo e($data['publish_date']); ?>">
+                <small class="form-hint">Required when scheduling.</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Author Name</label>
+                <input type="text" name="author_name" class="form-control" value="<?php echo e($data['author_name']); ?>">
+                <small class="form-hint">Shown as the blog author.</small>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="form-label">Author Name</label>
-            <input type="text" name="author_name" class="form-control" value="<?php echo e($data['author_name']); ?>">
+    </section>
+
+    <section class="card section-card">
+        <div class="section-card__header">
+            <div>
+                <h2>Layout template</h2>
+                <p class="section-hint">Choose how this post appears on the public page.</p>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="form-label">Template</label>
-            <div class="template-grid">
-                <label class="template-card">
+        <div class="section-card__body">
+            <div class="template-grid template-grid--tight">
+                <label class="template-card template-card--stacked">
                     <input type="radio" name="template" value="standard" <?php echo $data['template'] === 'standard' ? 'checked' : ''; ?>>
                     <div class="template-card__body">
                         <div class="template-card__preview" style="background-image: linear-gradient(160deg, #eef2ff, #e5e7eb);"></div>
                         <div class="template-card__label">
-                            <span class="template-card__title">Standard</span>
+                            <div>
+                                <span class="template-card__title">Standard</span>
+                                <span class="template-card__description">Classic blog layout with hero and body.</span>
+                            </div>
                             <span class="template-card__pill">Classic</span>
                         </div>
                     </div>
                 </label>
-                <label class="template-card">
+                <label class="template-card template-card--stacked">
                     <input type="radio" name="template" value="feature" <?php echo $data['template'] === 'feature' ? 'checked' : ''; ?>>
                     <div class="template-card__body">
                         <div class="template-card__preview" style="background-image: linear-gradient(160deg, #0b1220, #1e2a42), url('<?php echo BASE_URL; ?>assets/images/default-banner.svg'); background-blend-mode: overlay;"></div>
                         <div class="template-card__label">
-                            <span class="template-card__title">Feature</span>
+                            <div>
+                                <span class="template-card__title">Feature</span>
+                                <span class="template-card__description">Wide hero banner for standout stories.</span>
+                            </div>
                             <span class="template-card__pill">Wide hero</span>
                         </div>
                     </div>
                 </label>
             </div>
-            <small class="form-text">Choose the layout used on the public page.</small>
+            <small class="form-text">Controls how this blog appears on the public page.</small>
         </div>
-        <h3>SEO</h3>
-        <div class="form-group">
-            <label class="form-label">Meta Title</label>
-            <input type="text" name="meta_title" class="form-control" value="<?php echo e($data['meta_title']); ?>">
+    </section>
+
+    <?php
+    $seoPreviewTitle = $data['meta_title'] ?: ($data['title'] ?: 'Your title here');
+    $seoPreviewUrl = BASE_URL . 'public/blog.php?slug=' . ($data['slug'] ?: 'your-slug');
+    $seoPreviewDesc = $data['meta_description'] ?: $data['excerpt'];
+    ?>
+    <section class="card section-card">
+        <div class="section-card__header">
+            <div>
+                <h2>SEO</h2>
+                <p class="section-hint">Set metadata for search and sharing.</p>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="form-label">Meta Description</label>
-            <textarea name="meta_description" class="form-control" rows="2"><?php echo e($data['meta_description']); ?></textarea>
+        <div class="section-card__body">
+            <div class="form-group">
+                <label class="form-label">Meta Title</label>
+                <input type="text" name="meta_title" class="form-control" value="<?php echo e($data['meta_title']); ?>">
+                <small class="form-hint">Recommended up to 60 characters.</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Meta Description</label>
+                <textarea name="meta_description" class="form-control" rows="2"><?php echo e($data['meta_description']); ?></textarea>
+                <small class="form-hint">Shown in search results.</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Meta Keywords</label>
+                <input type="text" name="meta_keywords" class="form-control" value="<?php echo e($data['meta_keywords']); ?>">
+                <small class="form-hint">Comma-separated, optional.</small>
+            </div>
+            <div class="seo-preview">
+                <div class="seo-preview__title"><?php echo e($seoPreviewTitle); ?></div>
+                <div class="seo-preview__url"><?php echo e($seoPreviewUrl); ?></div>
+                <?php if ($seoPreviewDesc): ?><div class="seo-preview__desc"><?php echo e($seoPreviewDesc); ?></div><?php endif; ?>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="form-label">Meta Keywords (comma separated)</label>
-            <input type="text" name="meta_keywords" class="form-control" value="<?php echo e($data['meta_keywords']); ?>">
-        </div>
+    </section>
+
+    <div class="form-actions">
+        <a class="btn btn-secondary" href="<?php echo BASE_URL; ?>admin/blogs/index.php">Back</a>
         <button type="submit" class="btn btn-primary">Create</button>
-    </form>
-</div>
+    </div>
+</form>
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script>
