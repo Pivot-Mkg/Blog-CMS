@@ -49,7 +49,7 @@ header { margin: 0; }
 .feature-container { max-width: 1180px; }
 .feature-hero { position: relative; min-height: 360px; background-size: cover; background-position: center; display: flex; align-items: flex-end; color: #fff; }
 .feature-hero__overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,18,33,0.25), rgba(12,18,33,0.7)); }
-.feature-hero__content { position: relative; padding: 90px 20px 50px; }
+.feature-hero__content { position: relative; padding: 90px 20px 50px; width: 800px; }
 .feature-hero__content h1 { font-size: 2.4rem; }
 .feature-hero__meta { display: flex; gap: 12px; align-items: center; color: #e5e7eb; font-weight: 600; margin-top: 8px; }
 .feature-main { padding: 50px 20px 70px; }

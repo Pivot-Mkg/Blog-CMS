@@ -12,7 +12,7 @@
     <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.4"/>
   </linearGradient>
 </defs>
-<rect width="1200" height="360" fill="url(#gradient)" rx="24" ry="24"/>
+<rect width="1200" height="360" fill="url(#gradient)"/>
 <circle cx="1040" cy="80" r="120" fill="url(#accent)" opacity="0.4"/>
 <circle cx="140" cy="300" r="140" fill="url(#accent)" opacity="0.25"/>
 <path d="M80 260 Q200 180 340 230 T640 210 T960 140 T1160 180" fill="none" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"/>
