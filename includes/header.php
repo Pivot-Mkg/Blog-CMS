@@ -32,10 +32,25 @@ require_once __DIR__ . '/functions.php';
     <?php if (!isset($hideSidebar) || !$hideSidebar): ?>
         <?php require __DIR__ . '/sidebar.php'; ?>
     <?php endif; ?>
-    <div class="main-content">
-        <?php if (isset($_SESSION['flash']) && !empty($_SESSION['flash'])): ?>
+    <?php if (isset($_SESSION['flash']) && !empty($_SESSION['flash'])): ?>
+        <div class="flash-container" id="flash-container">
             <?php foreach ($_SESSION['flash'] as $flashKey => $flashData): ?>
                 <?php $flashType = $flashData['type'] ?? 'success'; ?>
-                <div class="card flash flash-<?php echo e($flashType); ?>"><?php echo e($flashData['message']); ?></div>
+                <div class="card flash flash-<?php echo e($flashType); ?>">
+                    <div class="flash__content"><?php echo e($flashData['message']); ?></div>
+                    <button class="flash__close" type="button" aria-label="Dismiss notification">&times;</button>
+                </div>
             <?php endforeach; unset($_SESSION['flash']); ?>
-        <?php endif; ?>
+        </div>
+        <script>
+            document.addEventListener('click', function (event) {
+                if (event.target.classList.contains('flash__close')) {
+                    const toast = event.target.closest('.flash');
+                    if (toast) {
+                        toast.remove();
+                    }
+                }
+            });
+        </script>
+    <?php endif; ?>
+    <div class="main-content">

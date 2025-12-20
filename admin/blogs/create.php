@@ -130,28 +130,32 @@ require_once __DIR__ . '/../../includes/header.php';
             <div id="content-editor" style="height:400px;"></div>
             <textarea id="content" name="content" class="form-control" style="display:none;"><?php echo e($data['content']); ?></textarea>
         </div>
-        <div class="form-group">
-            <label class="form-label">Banner Image</label>
-            <label class="file-upload">
-                <i class="fa-solid fa-image"></i>
-                <span class="file-text">
-                    <span class="file-title">Upload banner</span>
-                    <span class="file-hint">JPG, PNG, WEBP up to 2MB</span>
-                </span>
-                <input type="file" name="banner_image" accept="image/*">
-            </label>
-            <small class="form-text">If left blank a default banner will be used.</small>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Inside Image</label>
-            <label class="file-upload">
-                <i class="fa-solid fa-photo-film"></i>
-                <span class="file-text">
-                    <span class="file-title">Upload inside image</span>
-                    <span class="file-hint">JPG, PNG, WEBP up to 2MB</span>
-                </span>
-                <input type="file" name="featured_image" accept="image/*">
-            </label>
+        <div class="form-group" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+            <div>
+                <label class="form-label">Banner Image</label>
+                <label class="file-upload">
+                    <i class="fa-solid fa-image"></i>
+                    <span class="file-text">
+                        <span class="file-title">Upload banner</span>
+                        <span class="file-hint">JPG, PNG, WEBP up to 2MB</span>
+                    </span>
+                    <input type="file" name="banner_image" accept="image/*">
+                </label>
+                <small class="form-text">If left blank a default banner will be used.</small>
+                <div class="image-preview"><img id="banner-preview" alt="Banner preview"></div>
+            </div>
+            <div>
+                <label class="form-label">Inside Image</label>
+                <label class="file-upload">
+                    <i class="fa-solid fa-photo-film"></i>
+                    <span class="file-text">
+                        <span class="file-title">Upload inside image</span>
+                        <span class="file-hint">JPG, PNG, WEBP up to 2MB</span>
+                    </span>
+                    <input type="file" name="featured_image" accept="image/*">
+                </label>
+                <div class="image-preview"><img id="inside-preview" alt="Inside image preview"></div>
+            </div>
         </div>
         <div class="form-group">
             <label class="form-label">Status</label>
@@ -171,10 +175,28 @@ require_once __DIR__ . '/../../includes/header.php';
         </div>
         <div class="form-group">
             <label class="form-label">Template</label>
-            <select name="template" class="form-control">
-                <option value="standard" <?php echo $data['template'] === 'standard' ? 'selected' : ''; ?>>Standard</option>
-                <option value="feature" <?php echo $data['template'] === 'feature' ? 'selected' : ''; ?>>Feature (Nikka-inspired)</option>
-            </select>
+            <div class="template-grid">
+                <label class="template-card">
+                    <input type="radio" name="template" value="standard" <?php echo $data['template'] === 'standard' ? 'checked' : ''; ?>>
+                    <div class="template-card__body">
+                        <div class="template-card__preview" style="background-image: linear-gradient(160deg, #eef2ff, #e5e7eb);"></div>
+                        <div class="template-card__label">
+                            <span class="template-card__title">Standard</span>
+                            <span class="template-card__pill">Classic</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="template-card">
+                    <input type="radio" name="template" value="feature" <?php echo $data['template'] === 'feature' ? 'checked' : ''; ?>>
+                    <div class="template-card__body">
+                        <div class="template-card__preview" style="background-image: linear-gradient(160deg, #0b1220, #1e2a42), url('<?php echo BASE_URL; ?>assets/images/default-banner.svg'); background-blend-mode: overlay;"></div>
+                        <div class="template-card__label">
+                            <span class="template-card__title">Feature</span>
+                            <span class="template-card__pill">Wide hero</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
             <small class="form-text">Choose the layout used on the public page.</small>
         </div>
         <h3>SEO</h3>
@@ -227,5 +249,18 @@ quill.on('text-change', syncContent);
 if (form) {
     form.addEventListener('submit', syncContent);
 }
+
+const previewImage = (inputEl, imgEl) => {
+    if (!inputEl || !imgEl) return;
+    inputEl.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+            imgEl.src = URL.createObjectURL(file);
+            imgEl.classList.add('is-visible');
+        }
+    });
+};
+previewImage(document.querySelector('input[name="banner_image"]'), document.getElementById('banner-preview'));
+previewImage(document.querySelector('input[name="featured_image"]'), document.getElementById('inside-preview'));
 </script>
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

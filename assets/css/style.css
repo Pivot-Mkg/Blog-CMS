@@ -59,7 +59,7 @@ header { margin: 0; }
 .feature-share ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
 .feature-share a { color: #0f172a; text-decoration: none; font-weight: 600; }
 .feature-share a:hover { color: #2563eb; }
-.feature-article { background: #fff; border-radius: 18px; padding: 28px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); border: 1px solid #e5e7eb; }
+.feature-article { border-radius: 18px; padding: 28px;}
 .feature-article p { color: #1f2937; }
 .feature-meta { display: grid; gap: 18px; position: sticky; top: 20px; }
 .feature-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 18px; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06); }
