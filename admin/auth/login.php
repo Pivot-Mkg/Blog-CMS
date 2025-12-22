@@ -47,8 +47,8 @@ require_once __DIR__ . '/../../includes/header.php';
             <div class="auth-logo">
                 <img src="https://pivotmkg.com/assets/images/Final_logo.png" alt="Pivot Marketing Logo">
             </div>
-            <!-- <h2>Get Started</h2> -->
-            <!-- <p class="auth-subtitle">Welcome back — let’s get you signed in</p> -->
+            <h2>Get Started</h2>
+            <p class="auth-subtitle">Welcome back - let's get you signed in</p>
             <?php if (!empty($errors)): ?>
                 <div class="card flash flash-error" style="margin-bottom:12px;"><?php echo e(implode(' ', $errors)); ?></div>
             <?php endif; ?>
@@ -64,7 +64,7 @@ require_once __DIR__ . '/../../includes/header.php';
                 </div>
                 <button type="submit" class="btn btn-primary auth-submit">Login</button>
             </form>
-            <p class="auth-footer-text">Don’t have an account? <a href="<?php echo BASE_URL; ?>admin/auth/login.php">Request access</a></p>
+            <p class="auth-footer-text">Don't have an account? <a href="<?php echo BASE_URL; ?>admin/auth/request-access.php">Request access</a></p>
         </div>
     </div>
 </div>
