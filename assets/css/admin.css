@@ -157,7 +157,7 @@ textarea.form-control { min-height: 120px; resize: vertical; }
 .template-card__title { font-weight: 700; color: var(--heading); }
 .template-card__pill { padding: 6px 10px; border-radius: 10px; font-size: 0.85rem; color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-strong)); }
 .template-card input:checked + .template-card__body { box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.8); background: rgba(37, 99, 235, 0.05); border-color: rgba(37,99,235,0.8); }
-.template-card__body { display: grid; grid-template-rows: auto auto; height: 100%; border-radius: 14px; overflow: hidden; border: 1px solid transparent; }
+.template-card__body { display: grid; grid-template-rows: auto auto; height: 100%; border-radius: 11px; overflow: hidden; border: 1px solid transparent; }
 .template-card--stacked .template-card__label { flex-direction: column; align-items: flex-start; gap: 6px; }
 .template-card__description { display: block; color: #475569; font-size: 0.9rem; margin-top: 4px; }
 .template-grid--tight { gap: 12px; }
