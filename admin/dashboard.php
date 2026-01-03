@@ -20,7 +20,10 @@ require_once __DIR__ . '/../includes/header.php';
             <p style="margin:0;color:var(--muted);font-weight:600;">Hello, <?php echo e($admin['name'] ?? 'Admin'); ?> 👋</p>
             <h1 style="margin:6px 0 0;">Your blog pulse</h1>
         </div>
-        <a href="<?php echo BASE_URL; ?>admin/blogs/create.php" class="btn btn-primary">Create blog</a>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+            <a href="<?php echo BASE_URL; ?>admin/home-hero.php" class="btn btn-secondary btn-ghost">Edit Blogs Layout</a>
+            <a href="<?php echo BASE_URL; ?>admin/blogs/create.php" class="btn btn-primary">Create blog</a>
+        </div>
     </div>
 
     <div class="stats-grid">

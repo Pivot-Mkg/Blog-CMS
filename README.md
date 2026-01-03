@@ -32,8 +32,8 @@ Production-ready blog CMS with secure admin dashboard, TinyMCE editor, media upl
    Change the password after first login.
 5. **Access**
    - Admin: `/admin/auth/login.php`
-   - Public blog list: `/public/index.php`
-   - Public post: `/public/blog.php?slug=your-post-slug`
+   - Public blog list: `/` (or `/index.php`)
+   - Public post: `/blog.php?slug=your-post-slug`
 
 ## Project Structure
 - `config/` — App + DB config.
@@ -50,4 +50,4 @@ Production-ready blog CMS with secure admin dashboard, TinyMCE editor, media upl
 - Session regenerated on login; logout destroys the session.
 - Image uploads restricted by MIME type and size (2MB default).
 
-Deploy on Apache/shared hosting by pointing the document root to the project (or a parent) ensuring `/public` URLs resolve correctly. Update `BASE_URL` if deploying in a subdirectory.
+Deploy on Apache/shared hosting by pointing the document root to the project. Update `BASE_URL` if deploying in a subdirectory (e.g., `/mypetbnb/`).

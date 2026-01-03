@@ -265,7 +265,7 @@ require_once __DIR__ . '/../../includes/header.php';
 
     <?php
     $seoPreviewTitle = $data['meta_title'] ?: ($data['title'] ?: 'Your title here');
-    $seoPreviewUrl = BASE_URL . 'public/blog.php?slug=' . ($data['slug'] ?: 'your-slug');
+    $seoPreviewUrl = BASE_URL . 'blog.php?slug=' . ($data['slug'] ?: 'your-slug');
     $seoPreviewDesc = $data['meta_description'] ?: $data['excerpt'];
     ?>
     <section class="card section-card">
@@ -323,6 +323,8 @@ const quill = new Quill('#content-editor', {
 
 const contentField = document.getElementById('content');
 const initialContent = <?php echo json_encode($data['content']); ?>;
+const titleInput = document.querySelector('input[name="title"]');
+const baseUrl = <?php echo json_encode(BASE_URL); ?>;
 
 if (initialContent) {
     quill.root.innerHTML = initialContent;
@@ -330,13 +332,64 @@ if (initialContent) {
 }
 
 const form = document.querySelector('form');
+const setAltFallbacks = () => {
+    const fallback = (titleInput && titleInput.value.trim()) ? `${titleInput.value.trim()} image` : 'Blog image';
+    quill.root.querySelectorAll('img').forEach(img => {
+        if (!img.getAttribute('alt') || img.getAttribute('alt').trim() === '') {
+            img.setAttribute('alt', fallback);
+        }
+    });
+};
 const syncContent = () => {
+    setAltFallbacks();
     contentField.value = quill.root.innerHTML;
 };
+
+setAltFallbacks();
 
 quill.on('text-change', syncContent);
 if (form) {
     form.addEventListener('submit', syncContent);
+}
+
+const toolbar = quill.getModule('toolbar');
+if (toolbar) {
+    toolbar.addHandler('image', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async () => {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('file', file);
+            const range = quill.getSelection(true) || { index: quill.getLength() };
+            try {
+                const response = await fetch(`${baseUrl}admin/media/upload_handler.php`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                if (!response.ok || !data.location) {
+                    throw new Error(data.error || 'Upload failed');
+                }
+                quill.insertEmbed(range.index, 'image', data.location, Quill.sources.USER);
+                const [leaf] = quill.getLeaf(range.index);
+                const node = leaf && leaf.domNode;
+                if (node) {
+                    const fallback = (titleInput && titleInput.value.trim()) ? `${titleInput.value.trim()} image` : 'Blog image';
+                    if (!node.getAttribute('alt') || node.getAttribute('alt').trim() === '') {
+                        node.setAttribute('alt', fallback);
+                    }
+                }
+                quill.setSelection(range.index + 1, Quill.sources.SILENT);
+                syncContent();
+            } catch (err) {
+                alert(err.message || 'Upload failed');
+            }
+        };
+        input.click();
+    });
 }
 
 const previewImage = (inputEl, imgEl) => {

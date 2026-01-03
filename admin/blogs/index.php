@@ -91,7 +91,7 @@ require_once __DIR__ . '/../../includes/header.php';
                     <td><?php echo format_date($blog['updated_at']); ?></td>
                     <td style="white-space:nowrap;">
                         <a class="btn btn-secondary btn-sm" href="<?php echo BASE_URL; ?>admin/blogs/edit.php?id=<?php echo $blog['id']; ?>">Edit</a>
-                        <a class="btn btn-primary btn-sm" target="_blank" href="<?php echo BASE_URL; ?>public/blog.php?slug=<?php echo e($blog['slug']); ?>&preview=1">Preview</a>
+                        <a class="btn btn-primary btn-sm" target="_blank" href="<?php echo BASE_URL; ?>blog.php?slug=<?php echo e($blog['slug']); ?>&preview=1">Preview</a>
                         <form method="post" action="<?php echo BASE_URL; ?>admin/blogs/delete.php" style="display:inline;" onsubmit="return confirm('Delete this blog?');">
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="id" value="<?php echo $blog['id']; ?>">

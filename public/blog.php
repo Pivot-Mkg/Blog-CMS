@@ -32,7 +32,7 @@ if (!$blog) {
     <div class="container not-found">
         <h1>404</h1>
         <p>Blog post not found.</p>
-        <a href="<?php echo BASE_URL; ?>public/index.php">Back to blog</a>
+        <a href="<?php echo BASE_URL; ?>index.php">Back to blog</a>
     </div>
     </body>
     </html><?php

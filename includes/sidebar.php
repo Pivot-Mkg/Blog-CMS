@@ -20,6 +20,9 @@
         <a href="<?php echo BASE_URL; ?>admin/dashboard.php" class="<?php echo strpos($currentPath, 'dashboard.php') !== false ? 'active' : ''; ?>">
             <span class="nav-icon"><i class="fa-solid fa-house"></i></span><span class="nav-label">Dashboard</span>
         </a>
+        <a href="<?php echo BASE_URL; ?>admin/home-hero.php" class="<?php echo strpos($currentPath, 'home-hero.php') !== false ? 'active' : ''; ?>">
+            <span class="nav-icon"><i class="fa-solid fa-image"></i></span><span class="nav-label">Homepage Hero</span>
+        </a>
         <a href="<?php echo BASE_URL; ?>admin/blogs/index.php" class="<?php echo strpos($currentPath, 'blogs') !== false ? 'active' : ''; ?>">
             <span class="nav-icon"><i class="fa-solid fa-file-pen"></i></span><span class="nav-label">Blogs</span>
         </a>
